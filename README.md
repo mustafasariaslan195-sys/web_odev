@@ -5,7 +5,7 @@ Kullanıcılar sisteme kayıt olabilir, giriş yapabilir ve yalnızca kendilerin
 
 Proje; temel web geliştirme mantığını (Frontend + Backend + Veritabanı entegrasyonu) öğrenmek isteyenler için örnek bir uygulamadır.
 
-1 Projenin Amacı
+#Projenin Amacı
 
 Bu proje aşağıdaki konuları öğretmeyi amaçlar:
 
@@ -23,7 +23,7 @@ Kullanıcıya özel veri listeleme mantığı
 
 Basit form ve arayüz tasarımı
 
-2 Kullanılan Teknolojiler
+#Kullanılan Teknolojiler
 
 HTML – Sayfa yapısı
 
@@ -35,7 +35,7 @@ PHP – Sunucu tarafı işlemler
 
 MySQL – Veritabanı yönetimi
 
-3 Sistem Nasıl Çalışır?
+#Sistem Nasıl Çalışır?
 
 Kullanıcı kayıt olur.
 
