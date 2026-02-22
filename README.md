@@ -1,139 +1,74 @@
 # web_odev
-todo_app
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    password VARCHAR(255) NOT NULL
-);
+Bu proje, kullanıcı kayıt ve giriş sistemi bulunan basit bir To-Do List (Görev Yönetim) web uygulamasıdır.
 
-CREATE TABLE tasks (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    task VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-<?php
-session_start();
+Kullanıcılar sisteme kayıt olabilir, giriş yapabilir ve yalnızca kendilerine ait görevleri ekleyip silebilirler.
 
-$conn = new mysqli("localhost", "root", "", "todo_app");
+Proje; temel web geliştirme mantığını (Frontend + Backend + Veritabanı entegrasyonu) öğrenmek isteyenler için örnek bir uygulamadır.
 
-if ($conn->connect_error) {
-    die("Bağlantı hatası: " . $conn->connect_error);
-}
-?>
-<?php
-include "config.php";
+1 Projenin Amacı
 
-if ($_POST) {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+Bu proje aşağıdaki konuları öğretmeyi amaçlar:
 
-    $conn->query("INSERT INTO users (username,email,password) 
-                  VALUES ('$username','$email','$password')");
-    header("Location: login.php");
-}
-?>
+Kullanıcı kayıt ve giriş sistemi oluşturma
 
-<form method="POST">
-    <h2>Kayıt Ol</h2>
-    <input type="text" name="username" placeholder="Kullanıcı Adı" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Şifre" required>
-    <button>Kayıt Ol</button>
-</form>
-<?php
-include "config.php";
+PHP ile veritabanı bağlantısı kurma
 
-if ($_POST) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+Session yönetimi
 
-    $result = $conn->query("SELECT * FROM users WHERE email='$email'");
-    $user = $result->fetch_assoc();
+CRUD işlemleri (Create, Read, Delete)
 
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
-        header("Location: index.php");
-    } else {
-        echo "Hatalı giriş!";
-    }
-}
-?>
+Kullanıcıya özel veri listeleme mantığı
 
-<form method="POST">
-    <h2>Giriş Yap</h2>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Şifre" required>
-    <button>Giriş Yap</button>
-</form>
-<?php
-include "config.php";
+Şifrelerin güvenli şekilde hashlenmesi
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-}
+Basit form ve arayüz tasarımı
 
-$user_id = $_SESSION['user_id'];
-$tasks = $conn->query("SELECT * FROM tasks WHERE user_id=$user_id");
-?>
+2 Kullanılan Teknolojiler
 
-<h2>Görevlerim</h2>
+HTML – Sayfa yapısı
 
-<form action="add-task.php" method="POST">
-    <input type="text" name="task" placeholder="Yeni görev..." required>
-    <button>Ekle</button>
-</form>
+CSS – Basit arayüz tasarımı
 
-<ul>
-<?php while($row = $tasks->fetch_assoc()): ?>
-    <li>
-        <?= $row['task'] ?>
-        <a href="delete-task.php?id=<?= $row['id'] ?>">Sil</a>
-    </li>
-<?php endwhile; ?>
-</ul>
+JavaScript – (isteğe bağlı form doğrulama)
 
-<a href="logout.php">Çıkış Yap</a>
-<?php
-include "config.php";
+PHP – Sunucu tarafı işlemler
 
-if ($_POST) {
-    $task = $_POST['task'];
-    $user_id = $_SESSION['user_id'];
+MySQL – Veritabanı yönetimi
 
-    $conn->query("INSERT INTO tasks (user_id, task) 
-                  VALUES ('$user_id','$task')");
-}
+3 Sistem Nasıl Çalışır?
 
-header("Location: index.php");
-<?php
-include "config.php";
+Kullanıcı kayıt olur.
 
-$id = $_GET['id'];
-$conn->query("DELETE FROM tasks WHERE id=$id");
+Şifre hashlenerek veritabanına kaydedilir.
 
-header("Location: index.php");
-body {
-    font-family: Arial;
-    background: #f2f2f2;
-    text-align: center;
-}
+Kullanıcı giriş yaptığında session oluşturulur.
 
-form {
-    margin: 20px;
-}
+Kullanıcı sadece kendi görevlerini görüntüler.
 
-input {
-    padding: 8px;
-    margin: 5px;
-}
+Görev ekleme ve silme işlemleri kullanıcı ID’sine bağlı olarak yapılır.
 
-button {
-    padding: 8px 15px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-}
+Çıkış yapıldığında session sonlandırılır.
+
+📂 Özellikler
+
+👤 Kullanıcı kayıt sistemi
+
+🔑 Güvenli giriş sistemi
+
+📋 Kullanıcıya özel görev listesi
+
+➕ Görev ekleme
+
+❌ Görev silme
+
+🚪 Güvenli çıkış (Logout)
+
+🎯 Kimler İçin Uygun?
+
+Backend öğrenmeye yeni başlayanlar
+
+PHP & MySQL pratiği yapmak isteyenler
+
+Session mantığını öğrenmek isteyenler
+
+Küçük ölçekli web uygulaması geliştirmek isteyen öğrenciler
